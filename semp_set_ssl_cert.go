@@ -59,7 +59,7 @@ func CopyCertToBroker(scpClient scp.Client, content io.Reader, dst string) error
 
 	contents_bytes, _ := ioutil.ReadAll(content)
 	bytes_reader := bytes.NewReader(contents_bytes)
-	fmt.Println(dst)
+	fmt.Printf("Writing %d bytes\n", len(contents_bytes))
 	return scpClient.Copy(bytes_reader, dst, "0655", int64(len(contents_bytes)))
 }
 
@@ -144,18 +144,19 @@ func main() {
 	fmt.Println("waiting now for x509 cert + key on STDIN")
 	err = CopyCertToBroker(scpClient, os.Stdin, "/certs/broker.crt");
 	if err != nil {
+		fmt.Print(err.Error)
 		os.Stderr.WriteString("Unable to copy cert to broker\n")
 		os.Stderr.WriteString(err.Error() + "\n")
 		os.Exit(1)
 	}
 	
-	// fmt.Println("Activating cert")
-	// err = SempUseCert("broker.crt", conf);
-	// if err != nil {
-	// 	os.Stderr.WriteString("Unable activate cert, please check if it is an correct pem\n")
-	// 	os.Stderr.WriteString(err.Error() + "\n")
-	// 	os.Exit(1)
-	// }
+	fmt.Println("Activating cert")
+	err = SempUseCert("broker.crt", conf);
+	if err != nil {
+		os.Stderr.WriteString("Unable activate cert, please check if it is an correct pem\n")
+		os.Stderr.WriteString(err.Error() + "\n")
+		os.Exit(1)
+	}
 
 	fmt.Println("Done")
 }
