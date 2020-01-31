@@ -1,6 +1,7 @@
 *
 !*.go
 !*.sh
+!*.py
 !LICENSE
 !README.md
 !Makefile
