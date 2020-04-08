@@ -144,7 +144,7 @@ func main() {
 	fmt.Println("waiting now for x509 cert + key on STDIN")
 	err = CopyCertToBroker(scpClient, os.Stdin, "/certs/broker.crt");
 	if err != nil {
-		fmt.Print(err.Error)
+		fmt.Print(err.Error())
 		os.Stderr.WriteString("Unable to copy cert to broker\n")
 		os.Stderr.WriteString(err.Error() + "\n")
 		os.Exit(1)
